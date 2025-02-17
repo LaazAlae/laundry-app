@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Laundry</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Campus Laundry</h1>
+        </header>
+        
+        <main>
+            <div class="machines-grid">
+                <div class="machine" id="washer1">
+                    <h2>Washer 1</h2>
+                    <div class="status">Available</div>
+                    <div class="timer hidden">
+                        <span class="time-left"></span>
+                    </div>
+                </div>
+                <div class="machine" id="washer2">
+                    <h2>Washer 2</h2>
+                    <div class="status">Available</div>
+                    <div class="timer hidden">
+                        <span class="time-left"></span>
+                    </div>
+                </div>
+                <div class="machine" id="dryer1">
+                    <h2>Dryer 1</h2>
+                    <div class="status">Available</div>
+                    <div class="timer hidden">
+                        <span class="time-left"></span>
+                    </div>
+                </div>
+                <div class="machine" id="dryer2">
+                    <h2>Dryer 2</h2>
+                    <div class="status">Available</div>
+                    <div class="timer hidden">
+                        <span class="time-left"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="timer-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h2>Set Timer</h2>
+                    <div class="time-controls">
+                        <button class="decrease">-5</button>
+                        <span id="selected-time">30</span> minutes
+                        <button class="increase">+5</button>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="cancel">Cancel</button>
+                        <button class="confirm">Start</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
