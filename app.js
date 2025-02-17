@@ -11,6 +11,63 @@ class LaundryApp {
         this.setupEventListeners();
         this.checkNotificationPermission();
         this.loadMachineStates();
+        
+        // Add iOS NFC support
+        if ('NFCNDEFReader' in window) {
+            // Modern Android way
+            this.setupModernNFC();
+        } else if ('safari' in window && 'NDEFReader' in window.safari) {
+            // iOS way
+            this.setupIOSNFC();
+        } else {
+            console.log('NFC not supported - falling back to click handling');
+            this.setupClickHandling();
+        }
+    }
+
+
+    async setupModernNFC() {
+        try {
+            const reader = new NDEFReader();
+            await reader.scan();
+            reader.onreading = (event) => {
+                const decoder = new TextDecoder();
+                const text = decoder.decode(event.message.records[0].data);
+                this.handleMachineScan(text);
+            };
+        } catch (error) {
+            console.log('NFC error:', error);
+            this.setupClickHandling(); // Fallback
+        }
+    }
+
+    setupIOSNFC() {
+        const scanButton = document.createElement('button');
+        scanButton.textContent = 'Scan NFC Tag';
+        scanButton.className = 'nfc-scan-button';
+        document.querySelector('header').appendChild(scanButton);
+
+        scanButton.addEventListener('click', async () => {
+            try {
+                const reader = new window.safari.NDEFReader();
+                const message = await reader.scan();
+                const decoder = new TextDecoder();
+                const text = decoder.decode(message.records[0].data);
+                this.handleMachineScan(text);
+            } catch (error) {
+                console.log('iOS NFC error:', error);
+                alert('Error scanning NFC tag. Make sure NFC is enabled.');
+            }
+        });
+    }
+
+    setupClickHandling() {
+        // Fallback for testing
+        document.querySelectorAll('.machine').forEach(machine => {
+            machine.addEventListener('click', () => {
+                this.handleMachineScan(machine.id);
+            });
+        });
     }
 
     setupEventListeners() {
